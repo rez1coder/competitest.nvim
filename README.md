@@ -631,7 +631,7 @@ hi CompetiTestWrong   ctermfg=red    guifg=#ff0000
 	- [x] Customizable folder structure for downloaded problems and contests
 - [x] Templates for files created when receiving problems or contests
 - [ ] Integration with tools to submit solutions ([api-client](https://github.com/online-judge-tools/api-client) or [cpbooster](https://github.com/searleser97/cpbooster))
-- [ ] Write Vim docs
+- [x] Write Vim docs
 - [x] Customizable highlights
 - [x] Resizable UI
 
