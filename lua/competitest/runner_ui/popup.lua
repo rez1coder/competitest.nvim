@@ -94,40 +94,54 @@ function M.init_ui(windows, config)
 	popup_settings.win_options.number = config.runner_ui.show_nu
 	popup_settings.win_options.relativenumber = config.runner_ui.show_rnu
 	-- stdout popup
-	popup_settings.border.text.top = " Output "
-	popup_settings.size = sizes.so
-	popup_settings.position = positions.so
-	windows.so = nui_popup(popup_settings)
+	if sizes.so.width and sizes.so.height then
+		popup_settings.border.text.top = " Output "
+		popup_settings.size = sizes.so
+		popup_settings.position = positions.so
+		windows.so = nui_popup(popup_settings)
+	end
 
 	-- expected output popup
-	popup_settings.border.text.top = " Expected Output "
-	popup_settings.size = sizes.eo
-	popup_settings.position = positions.eo
-	windows.eo = nui_popup(popup_settings)
+	if sizes.eo.width and sizes.eo.height then
+		popup_settings.border.text.top = " Expected Output "
+		popup_settings.size = sizes.eo
+		popup_settings.position = positions.eo
+		windows.eo = nui_popup(popup_settings)
+	end
 
 	-- stdin popup
-	popup_settings.border.text.top = " Input "
-	popup_settings.size = sizes.si
-	popup_settings.position = positions.si
-	windows.si = nui_popup(popup_settings)
+	if sizes.si.width and sizes.si.height then
+		popup_settings.border.text.top = " Input "
+		popup_settings.size = sizes.si
+		popup_settings.position = positions.si
+		windows.si = nui_popup(popup_settings)
+	end
 
 	-- stderr popup
 	popup_settings.border.text.top = " Errors "
-	popup_settings.size = sizes.se
-	popup_settings.position = positions.se
+	popup_settings.size = nil
+	popup_settings.position = nil
 	windows.se = nui_popup(popup_settings)
 
-	windows.so:mount()
-	windows.eo:mount()
-	windows.si:mount()
-	windows.se:mount()
+	if sizes.se.width and sizes.se.height then
+		windows.se:update_layout({
+			size = sizes.se,
+			position = positions.se,
+			relative = "editor",
+		})
+		windows.se:mount()
+	end
+
+	if windows.so then windows.so:mount() end
+	if windows.eo then windows.eo:mount() end
+	if windows.si then windows.si:mount() end
 	windows.tc:mount()
 end
 
 function M.show_ui(windows)
 	---@cast windows table<competitest.RunnerUI.window, NuiPopup>
 	for n, w in pairs(windows) do
-		if n ~= "vw" then -- show ui but not viewer popup
+		if n ~= "vw" and (n ~= "se" or w.winid) then -- show ui but not viewer popup
 			w:show()
 		end
 	end

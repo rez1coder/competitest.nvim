@@ -286,15 +286,15 @@ end
 ---Toggle diffview between standard output and expected output windows
 function RunnerUI:toggle_diff_view()
 	self.diff_view = not self.diff_view
-	win_set_diff(self.windows.eo.winid, self.diff_view)
-	win_set_diff(self.windows.so.winid, self.diff_view)
+	if self.windows.eo then win_set_diff(self.windows.eo.winid, self.diff_view) end
+	if self.windows.so then win_set_diff(self.windows.so.winid, self.diff_view) end
 end
 
 ---@private
 ---Disable diffview between standard output and expected output windows
 function RunnerUI:disable_diff_view()
-	win_set_diff(self.windows.eo.winid, false)
-	win_set_diff(self.windows.so.winid, false)
+	if self.windows.eo then win_set_diff(self.windows.eo.winid, false) end
+	if self.windows.so then win_set_diff(self.windows.so.winid, false) end
 end
 
 ---@private
@@ -502,9 +502,9 @@ function RunnerUI:update_ui()
 				vim.bo[bufnr].modifiable = false
 			end
 
-			set_buf_content(self.windows.so.bufnr, data.stdout)
-			set_buf_content(self.windows.eo.bufnr, data.expout)
-			set_buf_content(self.windows.si.bufnr, data.stdin)
+			if self.windows.so then set_buf_content(self.windows.so.bufnr, data.stdout) end
+			if self.windows.eo then set_buf_content(self.windows.eo.bufnr, data.expout) end
+			if self.windows.si then set_buf_content(self.windows.si.bufnr, data.stdin) end
 			set_buf_content(self.windows.se.bufnr, data.stderr)
 		end
 
